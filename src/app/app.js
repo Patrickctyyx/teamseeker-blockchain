@@ -81,11 +81,10 @@ App = {
 
     ////////////////// post to the blockchain
     handleCreateUser: function() {
-        if (!$("#form").valid()) return;
         
         var name = $("#name").val();
         var email = $("#email").val();
-        var major = $("major").val();
+        var major = $("#major").val();
 
         var TMInstance;
 
@@ -100,17 +99,17 @@ App = {
                 TMInstance = instance;
 
                 return TMInstance.createUser(name, email, major);
-            }).then(function (result) {
+            }).then(function () {
+                // todo: 不知道这里为什么不会运行
                 alert("创建账号成功，等待写入区块链");
             }).catch(function(err) {
-                alert("有错误发生，创建账号失败。");
+                alert("有错误发生，创建账号失败");
                 console.log(err.message);
             });
         });
     },
 
     handlePublish: function() {
-        // if (!$("#form").valid()) return;
         
         var theme = $("#theme").val();
         var intro = $("#intro").val();
@@ -132,9 +131,10 @@ App = {
 
                 return TMInstance.publish(theme, intro, requirement, status, max_num);
             }).then(function (result) {
+                console.log(result);
                 alert("发布比赛成功，等待写入区块链");
             }).catch(function(err) {
-                alert("有错误发生，发布失败。");
+                alert("有错误发生，发布失败。" + err.message);
                 console.log(err.message);
             });
         });
@@ -168,10 +168,13 @@ App = {
     ////////////////// utils
     injectTemplate: function(title, para, action, hasData) {
         var content = '';
+        var actionText;
         if (hasData) {
             content += '<div class="col s12 m6 l6">';
+            actionText = '加入项目';
         } else {
             content += '<div class="col s12 container">';
+            actionText = '创建项目';
         }
         return content 
         + '<div class="card hoverable small">'
@@ -183,7 +186,7 @@ App = {
         + '<p>' + para + '</p>'
         + '</div>'
         + '<div class="card-action">'
-        + '<a href="javascript:App.handleJoin(' + action + ')">创建项目</a>'
+        + '<a href="javascript:App.handleJoin(' + action + ')">' + actionText + '</a>'
         + '</div>'
         + '</div>'
         + '</div>';

@@ -2,7 +2,7 @@
   <html>
     <head>
       <meta charset="utf-8">
-      <title>TeamSeeker-创建项目</title>
+      <title>TeamSeeker-创建账号</title>
       <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
@@ -69,9 +69,9 @@
           <a href="#!" class="brand-logo">TeamSeeker</a>
           <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="#">主页</a></li>
-            <li><a href="#">个人空间</a></li>
-            <li><a href="#">创建项目</a></li>
+            <li><a href="index.html">主页</a></li>
+            <li><a href="createUser.html">个人空间</a></li>
+            <li><a href="publish.html">创建项目</a></li>
           </ul>
           
           <ul id="slide-out" class="side-nav">
@@ -83,9 +83,9 @@
               <a href="#!name"><span class="white-text name">Lapras</span></a>
               <a href="#!email"><span class="white-text email">chengtiyanyang@gmail.com</span></a>
             </div></li>
-            <li><a class="waves-effect" href="#"><i class="material-icons">home</i>主页</a></li>
-            <li><a class="waves-effect" href="#"><i class="material-icons">person_pin</i>个人空间</a></li>
-            <li><a class="waves-effect" href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>创建项目</a></li>
+            <li><a class="waves-effect" href="index.html"><i class="material-icons">home</i>主页</a></li>
+            <li><a class="waves-effect" href="createUser.html"><i class="material-icons">person_pin</i>个人空间</a></li>
+            <li><a class="waves-effect" href="publish.html"><i class="fa fa-sign-in" aria-hidden="true"></i>创建项目</a></li>
           </ul>
         </div>
         </div>
@@ -98,7 +98,7 @@
     <div class="container">
       <div class="s12 m6">
         <div class="center-align grey-text text-darken-4">
-          <h3>创建项目</h3>
+          <h3>创建账号</h3>
         </div>
       </div>
 
@@ -106,42 +106,24 @@
         <form class="col s12">
           <div class="row">
             <div class="input-field col s12">
-              <input id="theme" type="text" class="validate">
-              <label for="theme">项目主题</label>
+              <input id="name" type="text" class="validate">
+              <label for="name">姓名</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <textarea id="intro" class="materialize-textarea"></textarea>
-              <label for="intro">项目介绍</label>
+              <input id="email" type="email" class="validate">
+              <label for="email">邮箱</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <textarea id="requirement" class="materialize-textarea"></textarea>
-              <label for="requirement">成员需求</label>
+              <input id="major" type="text" class="validate">
+              <label for="major">专业</label>
             </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="max_num" type="text" class="validate">
-              <label for="max_num">项目预计人数</label>
-            </div>
-          </div>
-          <div class="row">
-              <div class="input-field col s12">
-                <!-- <input id="status" type="text" class="validate"> -->
-                <select id="status">
-                  <option value="" disabled selected>选择初始状态</option>
-                  <option value="pending">准备中</option>
-                  <option value="processing">进行中</option>
-                  <option value="ended">已结束</option>
-                </select>
-                <label for="status">项目初始状态</label>
-              </div>
             </div>
           <div class="row center-align">
-            <button class="btn waves-effect waves-light" type="submit" name="action" onclick="App.handlePublish()">确认创建
+            <button class="btn waves-effect waves-light" type="submit" name="action" onclick="App.handleCreateUser()">确认创建
               <i class="material-icons right">send</i>
             </button>
           </div>

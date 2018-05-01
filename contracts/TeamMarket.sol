@@ -100,6 +100,8 @@ contract TeamMarket {
         string theme, string intro, string requirement, 
         string status, uint max_num) public returns (uint) {
 
+        require(userPool[msg.sender].isCreated);  // 创建了身份才能加入
+
         uint id = comps.length;  // 在数组中的位置，同样也是 publish id
 
         address[] memory u = new address[](max_num);
