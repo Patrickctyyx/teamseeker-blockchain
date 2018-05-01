@@ -40,6 +40,10 @@ contract TeamMarket {
         return userPool[msg.sender].publishedComps;
     }
 
+    function getCompetitionLength() public view returns (uint) {
+        return comps.length;
+    }
+
     function getCompInfo(uint id) public view returns (
         address, string, string, string, string, uint, uint, uint
     ) {
