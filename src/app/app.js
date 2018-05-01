@@ -100,8 +100,10 @@ App = {
 
                 return TMInstance.createUser(name, email, major);
             }).then(function () {
-                // todo: 不知道这里为什么不会运行
+                // 不知道这里为什么不会运行
+                // => 原来是因为刷新掉了，信息就被刷掉了
                 alert("创建账号成功，等待写入区块链");
+                window.location.href = "index.html";
             }).catch(function(err) {
                 alert("有错误发生，创建账号失败");
                 console.log(err.message);
@@ -133,6 +135,7 @@ App = {
             }).then(function (result) {
                 console.log(result);
                 alert("发布比赛成功，等待写入区块链");
+                window.location.href = "index.html";
             }).catch(function(err) {
                 alert("有错误发生，发布失败。" + err.message);
                 console.log(err.message);
