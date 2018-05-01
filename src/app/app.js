@@ -2,6 +2,7 @@ App = {
     web3Provider: null,
     contracts: {},
 
+    ////////////////// init functions
     init: function() {
         return App.initWeb3();
     },
@@ -47,6 +48,11 @@ App = {
         });
     },
 
+    markJoined: function() {
+        return;
+    },
+
+    ////////////////// get from the blockchain
     getCompetitions: function() {
         return new Promise(function(resolve, reject) {
             App.contracts.TeamMarket.deployed().then(function(instance) {
@@ -73,38 +79,7 @@ App = {
         });
     },
 
-    pageCallBack: async function(index, container) {
-        $("#comps").html('');
-        var content = '';
-        if (compsNum < 1) {
-            content += App.injectTemplate('暂时还没有项目哦', '赶紧发布属于你自己的项目吧~', '');
-            
-            $("#comps").append(content);
-            return;
-        }
-        var pageSize = 10;
-        var start = index * pageSize;
-        var end = Math.min((index + 1) * pageSize, compsNum);
-        for (var i = start; i < end; i++) {
-            var cInfo = await App.getCompInfo(i);
-            // todo: 这里的点击事件还没完善
-            content += App.injectTemplate(cInfo[1], cInfo[2], '');
-        }
-        $("#comps").append(content);
-    },
-
-    markJoined: function() {
-        return;
-    },
-
-    bindEvents: function() {
-
-    },
-
-    handleJoin: function() {
-        alert("加入成功！");
-    },
-
+    ////////////////// post to the blockchain
     handleCreateUser: function() {
         if (!$("#form").valid()) return;
         
@@ -135,13 +110,13 @@ App = {
     },
 
     handlePublish: function() {
-        if (!$("#form").valid()) return;
+        // if (!$("#form").valid()) return;
         
         var theme = $("#theme").val();
         var intro = $("#intro").val();
-        var requirement = $("requirement").val();
-        var status = $("status").val();
-        var max_num = $("max_num").val();
+        var requirement = $("#requirement").val();
+        var status = $("#status").val();
+        var max_num = $("#max_num").val();
 
         var TMInstance;
 
@@ -165,8 +140,40 @@ App = {
         });
     },
 
-    injectTemplate: function(title, para, action) {
-        return '<div class="col s12 container">'
+    handleJoin: function() {
+        alert("加入成功！");
+    },
+
+    ////////////////// generate the fronted content
+    pageCallBack: async function(index, container) {
+        $("#comps").html('');
+        var content = '';
+        if (compsNum < 1) {
+            content += App.injectTemplate('暂时还没有项目哦', '赶紧发布属于你自己的项目吧~', '', false);
+            
+            $("#comps").append(content);
+            return;
+        }
+        var pageSize = 10;
+        var start = index * pageSize;
+        var end = Math.min((index + 1) * pageSize, compsNum);
+        for (var i = start; i < end; i++) {
+            var cInfo = await App.getCompInfo(i);
+            // todo: 这里的点击事件还没完善
+            content += App.injectTemplate(cInfo[1], cInfo[2], '', true);
+        }
+        $("#comps").append(content);
+    },
+
+    ////////////////// utils
+    injectTemplate: function(title, para, action, hasData) {
+        var content = '';
+        if (hasData) {
+            content += '<div class="col s12 m6 l6">';
+        } else {
+            content += '<div class="col s12 container">';
+        }
+        return content 
         + '<div class="card hoverable small">'
         + '<div class="card-image">'
         + '<img src=\"' + 'img/gz.jpg' + '\">'
