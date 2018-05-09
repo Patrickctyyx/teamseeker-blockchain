@@ -137,7 +137,7 @@ App = {
                 alert("发布比赛成功，等待写入区块链");
                 window.location.href = "index.html";
             }).catch(function(err) {
-                alert("有错误发生，发布失败。" + err.message);
+                alert("有错误发生，发布失败。");
                 console.log(err.message);
             });
         });

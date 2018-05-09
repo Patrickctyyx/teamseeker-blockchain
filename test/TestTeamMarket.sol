@@ -36,5 +36,19 @@ contract TestTeamMarket {
         string memory _theme;
         (, _theme, , , , , , ) = tm.getCompInfo(id);
         Assert.equal(theme, _theme, "Comp not created successfully");
+        // Assert.equal(theme, "1", "MDZZ");
+
+        uint _max_num;
+
+        string memory theme1 = "论文吹水大赛1";
+        string memory intro1 = "这是一个世界顶级的比赛1";
+        uint max_num1 = 6;
+        uint id3 = tm.publish(theme1, intro1, requirement, status, max_num1);
+        (, , , , , _max_num, ,) = tm.getCompInfo(id3);
+        Assert.equal(max_num1, _max_num, "Comp not created successfully");
+
+        // uint id2 = tm.publish(theme, intro, requirement, status, 6);
+        // (, , , , , _max_num, ,) = tm.getCompInfo(id2);
+        // Assert.equal(6, _max_num, "Comp not created successfully");
     }
 }

@@ -31,6 +31,9 @@ contract TeamMarket {
     event joinSuccess(uint id, address addr);
     event publishSuccess(uint id, string theme, string intro, string requirement, 
     string status, uint max_num, uint cred_at);
+    event printNum(uint num);
+    event printAddress(address addr);
+    event printString(string str);
 
     function getJoinedComps() public view returns (uint[]) {  // view 修饰的方法不能修改状态变量
         return userPool[msg.sender].joinedComps;
@@ -63,14 +66,19 @@ contract TeamMarket {
         return (u.name, u.email, u.major);
     }
 
-    function hasPublished(string theme, string intro) public view returns (bool) {
-        User memory u = userPool[msg.sender];
+    function hasPublished(string theme, string intro, address publisherAddr) public view returns (bool) {
+        User memory u = userPool[publisherAddr];
+        if (u.publishedComps.length == 1 && u.publishedComps[0] == 873948000) {
+            return false;
+        }
         for (uint i = 0; i < u.publishedComps.length; i++) {
-            Competition memory c = comps[i];
+            uint compNum = u.publishedComps[i];
+            Competition memory c = comps[compNum];
             // 不能直接比较字符串，这里通过比较哈希值来比较
-            if (keccak256(c.theme) == keccak256(theme) 
-                && keccak256(c.intro) == keccak256(intro))
+            if (keccak256(c.theme) == keccak256(theme) && 
+                keccak256(c.intro) == keccak256(intro)) {
                 return true;
+            } 
         }
         return false;
     }
@@ -88,7 +96,9 @@ contract TeamMarket {
         require(!userPool[msg.sender].isCreated);  // 不能重复创建
         
         uint[] memory joinedComps = new uint[](1);
+        joinedComps[0] = 873948000;
         uint[] memory publishedComps = new uint[](1);
+        publishedComps[0] = 873948000;
         User memory u = User(name, email, major, joinedComps, publishedComps, true);
 
         userPool[msg.sender] = u;
@@ -101,6 +111,8 @@ contract TeamMarket {
         string status, uint max_num) public returns (uint) {
 
         require(userPool[msg.sender].isCreated);  // 创建了身份才能加入
+        require(!hasPublished(theme, intro, msg.sender));
+        // todo: 这个检验是否已经发布的有问题！！！
 
         uint id = comps.length;  // 在数组中的位置，同样也是 publish id
 
@@ -110,7 +122,14 @@ contract TeamMarket {
             status, max_num, 0, now, u);
 
         comps.push(c);
-        userPool[msg.sender].publishedComps.push(id);
+        if (userPool[msg.sender].publishedComps.length == 1 &&
+            userPool[msg.sender].publishedComps[0] == 873948000
+        ) {
+            userPool[msg.sender].publishedComps[0] = id;
+        } 
+        else {
+            userPool[msg.sender].publishedComps.push(id);
+        }
 
         emit publishSuccess(id, theme, intro, requirement, status, max_num, c.cred_at);
 
@@ -124,7 +143,14 @@ contract TeamMarket {
         require(c.publisher != msg.sender && !hasJoined(id));  // 不能自己是发布者且不能已经加入
 
         c.joinedUsers.push(msg.sender);
-        userPool[msg.sender].joinedComps.push(id);
+        if (userPool[msg.sender].joinedComps.length == 1 &&
+            userPool[msg.sender].joinedComps[0] == 873948000
+        ) {
+            userPool[msg.sender].joinedComps[0] = id;
+        } 
+        else {
+            userPool[msg.sender].joinedComps.push(id);
+        }
 
         emit joinSuccess(id, msg.sender);
 
